@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+   
+    <div class="container">
+        <div class="header">
+            <h2>Sign up</h2>
+            
+        </div>
+        <a href="index.html" class="signup" >login</a> 
+        
+        <form  class="form" id="form" method="post" onsubmit="return validation()">
+            
+            <div class="form-control">
+                <label >E-mail</label>
+                <input type="email" name="E_mail" id="Email"placeholder= "Enter your E-mail" autocomplete="off">
+                <i class="fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <small>Error message</small>    
+            </div>
+
+            <div class="form-control">
+                <label >Password</label>
+                <input type="password" name="Password" id="password"placeholder= "Enter your password" autocomplete="off">
+                <i class="fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <small>Error message</small>    
+            </div>
+
+
+            <div class="form-control">
+                <label >Confirm-Password</label>
+                <input type="password" name="Confirm" id="cPassword"placeholder= "Enter your password again" autocomplete="off">
+                <i class="fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <small>Error message</small>    
+            </div>
+
+
+            <input type="submit" name="Submit" value="signup" class="button">
+
+            <input type="reset" value="Reset" class="reset">
+        
+ 
+        </form>
+    </div>
+    <script type="text/javascript">
+   const form = document.getElementById('form');
+const email = document.getElementById('Email');
+const password = document.getElementById('password');
+const cPassword = document.getElementById('cPassword');
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    validate();
+});
+
+const senddata=(srate,count)=>{
+    if (srate===count){
+        alert('Login Succesfully');
+    
+    }
+}
+const resetButton = document.querySelector('.reset[type="reset"]');
+
+resetButton.addEventListener('click', () => {
+    const formControls = document.querySelectorAll('.form-control input');
+    formControls.forEach(control => {
+        control.value = ''; // Clear the value of each input field
+      // Reset the styling
+    });
+});
+
+
+const SuccessMessage=() =>{
+        let formControl=document.getElementsByClassName('form-control');
+        var count=formControl.length-1;
+    for(var i=0;i<formControl.length;i++){
+        if(formControl[i].className==="form-control success"){
+            var srate=0+i;
+            console.log(srate);
+            senddata(srate,count);
+        }
+    
+        else {
+            return false;
+        } 
+    }
+}
+
+const isEmail = (emailval) => {
+    const atSymbol = emailval.indexOf("@");
+    if (atSymbol < 1) return false;
+   const dot = emailval.lastIndexOf('.');
+    if (dot <= atSymbol + 2) return false;
+    if (dot === emailval.length - 1) return false;
+    return true;
+}
+
+const validate = () => {
+   
+    const emailval = email.value.trim(); 
+    const passwordval = password.value.trim();
+    const cPasswordval = cPassword.value.trim();
+   
+    if (emailval === "") {
+        setErrorMessage(email, 'Email cannot be Empty');
+    } else if (!isEmail(emailval)) {
+        setErrorMessage(email, "Not a valid Email");
+    } else {
+        setSuccessMessage(email);
+    }
+    
+if(passwordval===""){
+    setErrorMessage(password, "Password cannot be left blank.");
+
+}
+else if(passwordval.length<=7){
+    setErrorMessage(password,"Passwor should contain minimun 8 charater")
+}
+else{
+    setSuccessMessage(password)
+}
+
+if(cPasswordval===""){
+    setErrorMessage(cPassword, "Confirm Password cannot be left blank.");
+
+}
+else if(cPasswordval !== passwordval){
+    setErrorMessage(cPassword,"Password doesnot match")
+}
+else{
+    setSuccessMessage(cPassword)
+}
+SuccessMessage();
+}
+function setErrorMessage(input, errorMsg) {
+    const formControl = input.parentElement;                             
+    const small = formControl.querySelector('small');
+    formControl.className = "form-control error";
+    small.innerText = errorMsg;
+}
+
+function setSuccessMessage(input) {
+    const formControl = input.parentElement;
+    formControl.className = "form-control success";
+}
+</script>
+</body>
+</html>
